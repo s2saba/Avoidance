@@ -1,5 +1,6 @@
 package Controller;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -49,6 +50,12 @@ public class GameController implements IModeController {
 
 	@Override
 	public void KeyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void TimerTick(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -11,4 +11,5 @@ public interface IModeController {
 	public void KeyDown(KeyEvent e);
 	public void KeyUp(KeyEvent e);
 	public void KeyTyped(KeyEvent e);
+	public void TimerTick(ActionEvent e);
 }

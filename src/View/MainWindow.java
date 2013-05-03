@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 import Root.IObserver;
 import Controller.*;
@@ -19,7 +18,8 @@ public class MainWindow extends JFrame implements IObserver {
 		super("Avoidance");
 		animationTimer = new Timer(1000 / FPS, new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent event) {
+			public void actionPerformed(ActionEvent e) {
+				controller.TimerTick(e);
 				drawPanel.repaint();
 			}
 		});
