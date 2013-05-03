@@ -29,9 +29,10 @@ public class MainWindow extends JFrame {
 					drawPanel = new JPanel() {
 						private static final long serialVersionUID = 1L;
 
+						@Override
 						public void paintComponent(Graphics graphics) {
 							super.paintComponents(graphics);
-							render(graphics);
+							render((Graphics2D)graphics);
 						}
 					};
 					addWindowListener(new WindowAdapter() {
@@ -46,20 +47,18 @@ public class MainWindow extends JFrame {
 							bufferImage = drawPanel
 									.createImage(drawPanel.getWidth(),
 											drawPanel.getHeight());
-							bufferGraphics = bufferImage.getGraphics();
+							bufferGraphics = (Graphics2D) bufferImage.getGraphics();
 						}
 					});
 					
-					drawPanel.setPreferredSize(new Dimension((int) drawWidth,
-							(int) drawHeight));
+					drawPanel.setPreferredSize(new Dimension(drawWidth, drawHeight));
 					drawPanel.setLayout(null);
 					setLocationByPlatform(true);
 					
 					setContentPane(drawPanel);
 					pack();
 					setVisible(true);
-					bufferImage = drawPanel.createImage((int) drawWidth,
-							(int) drawHeight);
+					bufferImage = drawPanel.createImage(drawWidth, drawHeight);
 					if (bufferImage == null) {
 						throw new Exception("Failed to create image buffer");
 					}
@@ -75,18 +74,27 @@ public class MainWindow extends JFrame {
 		
 	}
 	
-	private void render(Graphics graphics) {
+	private void render(Graphics2D graphics) {
+		AffineTransform oldTransform = bufferGraphics.getTransform();
 		
+		bufferGraphics.scale(((double) drawPanel.getWidth()) / ((double) drawWidth), ((double) drawPanel.getHeight()) / ((double) drawHeight));
+		
+		bufferGraphics.setBackground(Color.BLACK);
+		bufferGraphics.clearRect(0, 0, drawWidth, drawHeight);
+		
+		bufferGraphics.setTransform(oldTransform);
+		
+		graphics.drawImage(bufferImage, 0, 0, drawPanel);
 	}
 	
 	private Timer animationTimer;
 	private Image bufferImage;
-	private Graphics bufferGraphics;
+	private Graphics2D bufferGraphics;
 	
 	private JPanel drawPanel;
 	
 	private int FPS = 30;
 	
-	private double drawWidth = 800;
-	private double drawHeight = 600;
+	private int drawWidth = 800;
+	private int drawHeight = 600;
 }
