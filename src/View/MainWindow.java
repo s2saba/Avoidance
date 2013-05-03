@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import Root.IObserver;
 import Controller.*;
+import Model.*;
 
 public class MainWindow extends JFrame implements IObserver {
 	/**
@@ -16,6 +17,8 @@ public class MainWindow extends JFrame implements IObserver {
 
 	public MainWindow() {
 		super("Avoidance");
+		model = new GameEngine();
+		model.Subscribe(this);
 		animationTimer = new Timer(1000 / FPS, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -29,7 +32,7 @@ public class MainWindow extends JFrame implements IObserver {
 			public void run() {
 				try {
 					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-					controller = new GameController();					
+					controller = new GameController(model);					
 					drawPanel = new JPanel() {
 						private static final long serialVersionUID = 1L;
 
@@ -145,6 +148,7 @@ public class MainWindow extends JFrame implements IObserver {
 	private Graphics2D bufferGraphics;
 	
 	private IModeController controller;
+	private GameEngine model;
 	
 	private JPanel drawPanel;
 	

@@ -4,8 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import Model.GameEngine;
+
 public class GameController implements IModeController {
 
+	private GameEngine engine;
+	
+	public GameController(GameEngine engine) {
+		this.engine = engine;
+	}
+	
 	@Override
 	public void MouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -56,8 +64,7 @@ public class GameController implements IModeController {
 
 	@Override
 	public void TimerTick(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		engine.UpdateGameState();
 	}
 	
 }
