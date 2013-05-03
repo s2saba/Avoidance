@@ -6,7 +6,10 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class MainWindow extends JFrame {
+import Root.IObserver;
+import Controller.*;
+
+public class MainWindow extends JFrame implements IObserver {
 	/**
 	 * 
 	 */
@@ -26,6 +29,7 @@ public class MainWindow extends JFrame {
 			public void run() {
 				try {
 					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+					controller = new GameController();					
 					drawPanel = new JPanel() {
 						private static final long serialVersionUID = 1L;
 
@@ -48,6 +52,49 @@ public class MainWindow extends JFrame {
 									.createImage(drawPanel.getWidth(),
 											drawPanel.getHeight());
 							bufferGraphics = (Graphics2D) bufferImage.getGraphics();
+						}
+					});
+					addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							controller.MouseClicked(e);
+						}
+						
+						@Override
+						public void mousePressed(MouseEvent e) {
+							controller.MouseDown(e);
+						}
+						
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							controller.MouseUp(e);
+						}
+					});
+					addMouseMotionListener(new MouseAdapter() {
+						@Override
+						public void mouseDragged(MouseEvent e) {
+							controller.MouseDragged(e);
+						}
+						
+						@Override
+						public void mouseMoved(MouseEvent e) {
+							controller.MouseMoved(e);
+						}
+					});
+					addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyPressed(KeyEvent e) {
+							controller.KeyDown(e);
+						}
+						
+						@Override
+						public void keyReleased(KeyEvent e) {
+							controller.KeyUp(e);
+						}
+						
+						@Override
+						public void keyTyped(KeyEvent e) {
+							controller.KeyTyped(e);
 						}
 					});
 					
@@ -87,9 +134,17 @@ public class MainWindow extends JFrame {
 		graphics.drawImage(bufferImage, 0, 0, drawPanel);
 	}
 	
+	@Override
+	public void Update() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private Timer animationTimer;
 	private Image bufferImage;
 	private Graphics2D bufferGraphics;
+	
+	private IModeController controller;
 	
 	private JPanel drawPanel;
 	
